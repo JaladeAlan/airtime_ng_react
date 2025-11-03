@@ -4,6 +4,10 @@ import Hero from "./components/Hero";
 import Features from "./components/Features";
 import Steps from "./components/Steps";
 import AppPreview from "./components/AppPreview";
+import WhyChooseUs from "./components/WhyChooseUs";
+import Partners from "./components/Partners";
+import DownloadApp from "./components/DownloadApp";
+import Footer from "./components/Footer";
 
 export default function App() {
   return (
@@ -25,18 +29,19 @@ export default function App() {
         <section id="app-preview">
           <AppPreview />
         </section>
-
-        <section id="support" className="min-h-screen flex items-center justify-center">
-          <div className="text-slate-500 text-sm italic">Support section placeholder</div>
+        <section id="why-choose-us">
+          <WhyChooseUs />
         </section>
 
-        <section id="blog" className="min-h-screen flex items-center justify-center">
-          <div className="text-slate-500 text-sm italic">Blog section placeholder</div>
+        <section id="partners">
+          <Partners />
         </section>
 
-        <section id="get-started" className="min-h-screen flex items-center justify-center">
-          <div className="text-slate-500 text-sm italic">Get Started section placeholder</div>
+        <section id="download-app">
+          <DownloadApp />
         </section>
+
+        <Footer />  
       </main>
     </>
   );
