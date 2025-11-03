@@ -1,7 +1,9 @@
-import React from "react";
+import React from "react";  
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero"; 
 import Features from "./components/Features";
+import Steps from "./components/Steps";
+import AppPreview from "./components/AppPreview";
 
 export default function App() {
   return (
@@ -14,6 +16,14 @@ export default function App() {
 
         <section id="features">
           <Features />
+        </section>
+
+        <section id="steps">
+          <Steps />
+        </section>
+
+        <section id="app-preview">
+          <AppPreview />
         </section>
 
         <section id="support" className="min-h-screen flex items-center justify-center">
