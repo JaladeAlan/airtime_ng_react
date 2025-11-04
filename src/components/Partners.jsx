@@ -1,13 +1,15 @@
 import { motion } from "framer-motion";
 
+// ✅ Import image assets directly
+import punch from "../assets/punch.png";
+import naijaloaded from "../assets/naijaloaded.png";
+import pulse from "../assets/pulse.png";
+import vanguard from "../assets/vanguard.png";
+import techpoint from "../assets/techpoint.png";
+
 export default function Partners() {
-  const logos = [
-    "/images/punch.png",
-    "/images/naijaloaded.png",
-    "/images/pulse.png",
-    "/images/vanguard.png",
-    "/images/techpoint.png",
-  ];
+  // ✅ Store imported assets in an array
+  const logos = [punch, naijaloaded, pulse, vanguard, techpoint];
 
   return (
     <section className="py-20 bg-white" id="partners">

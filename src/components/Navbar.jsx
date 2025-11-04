@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "react-feather"; 
-import logo from "../assets/logo.png"; 
+import { Menu, X } from "react-feather";
+import { Link } from "react-router-dom"; 
+import logo from "../assets/logo.png";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -9,17 +10,17 @@ export default function Navbar() {
   const navLinks = [
     { id: "home", label: "Home" },
     { id: "features", label: "Features" },
-    { id: "support", label: "Support" },
-    { id: "blog", label: "Blog" },
+    { id: "download-app", label: "Download App" },
+    // { id: "blog", label: "Blog" },
   ];
 
   return (
     <header className="fixed w-full z-40 bg-transparent backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo only */}
-        <a href="#home" className="flex items-center">
+        <Link to="/" className="flex items-center">
           <img src={logo} alt="airtime logo" className="h-10 object-contain" />
-        </a>
+        </Link>
 
         {/* Desktop links */}
         <nav className="hidden md:flex items-center gap-6">
@@ -32,12 +33,14 @@ export default function Navbar() {
               {l.label}
             </a>
           ))}
-          <a
-            href="#get-started"
+
+          {/* Go to Register Page */}
+          <Link
+            to="/register"
             className="ml-4 inline-block px-4 py-2 rounded-md bg-teal-700 text-white hover:bg-teal-800 shadow"
           >
             Get Started
-          </a>
+          </Link>
         </nav>
 
         {/* Mobile menu button */}
@@ -74,14 +77,14 @@ export default function Navbar() {
                 </a>
               ))}
 
-             <a
-              href="#get-started"
-              onClick={() => setOpen(false)}
-              className="mt-2 inline-block px-4 py-2 rounded-md bg-[#16404D] text-white px-8 py-3 rounded-lg font-medium hover:bg-[#172a6d] transition-all shadow-md hover:shadow-lg"
-            >
-              Get Started
-            </a>
-
+              {/* Go to Register Page on Mobile */}
+              <Link
+                to="/register"
+                onClick={() => setOpen(false)}
+                className="mt-2 inline-block px-8 py-3 rounded-md bg-[#16404D] text-white font-medium hover:bg-[#172a6d] transition-all shadow-md hover:shadow-lg"
+              >
+                Get Started
+              </Link>
             </div>
           </motion.div>
         )}
