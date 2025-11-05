@@ -1,87 +1,201 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import api from "../../utils/api";
 import handleApiError from "../../utils/handleApiError";
-import FormError from "../../components/FormError";
+
+import logo from "../../assets/logo.png";
+import phones from "../../assets/login.png";
 
 export default function ForgotPassword() {
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-  const [fieldErrors, setFieldErrors] = useState({});
-  const [message, setMessage] = useState("");
+  const [step, setStep] = useState(1); // 1 = email, 2 = verify code, 3 = reset password
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: "",
+    reset_code: "",
+    new_password: "",
+    confirm_new_password: "",
+  });
 
-  const handleSubmit = async (e) => {
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const handleSendResetCode = async (e) => {
     e.preventDefault();
-    setError("");
-    setMessage("");
-    setFieldErrors({});
     setLoading(true);
-
     try {
-      const res = await api.post("/password/reset/code", { email });
-
-      setMessage(res.data.message || "A reset code has been sent to your email.");
-
-      // Save email for next step
-      localStorage.setItem("reset_email", email);
-
-      // Navigate to OTP verification
-      navigate("/reset-verify", { state: { email } });
+      const res = await api.post("/users/auth/forgot_password.php", {
+        email: formData.email,
+      });
+      toast.success(res.data.message || "Reset code sent to your email!");
+      setStep(2);
     } catch (err) {
-      handleApiError(err, setError, setFieldErrors);
+      handleApiError(err, "Failed to send reset code");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVerifyCode = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const res = await api.post("/users/auth/verify_reset_code.php", {
+        email: formData.email,
+        reset_code: formData.reset_code,
+      });
+      toast.success(res.data.message || "Code verified successfully!");
+      setStep(3);
+    } catch (err) {
+      handleApiError(err, "Verification failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const res = await api.post("/users/auth/reset_password.php", {
+        email: formData.email,
+        new_password: formData.new_password,
+        confirm_new_password: formData.confirm_new_password,
+      });
+      toast.success(res.data.message || "Password reset successful!");
+      setStep(1);
+      setFormData({
+        email: "",
+        reset_code: "",
+        new_password: "",
+        confirm_new_password: "",
+      });
+    } catch (err) {
+      handleApiError(err, "Password reset failed");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 px-4">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-lg shadow-md w-full max-w-md"
-      >
-        <h2 className="text-2xl font-semibold mb-4 text-center">Forgot Password</h2>
+    <section className="min-h-screen bg-gradient-to-r from-[#FBF5DD] to-[#F8F8F9] flex items-center justify-center px-4">
+      <div className="flex flex-col md:flex-row bg-white rounded-[30px] shadow-md w-full max-w-4xl overflow-hidden">
+        {/* Left Form Section */}
+        <div className="w-full md:w-1/2 p-8 md:p-10">
+          <img src={logo} alt="Airtime.ng Logo" className="h-8 mb-8" />
 
-        {error && <p className="text-red-500 text-sm mb-3 text-center">{error}</p>}
-        {message && <p className="text-green-600 text-sm mb-3 text-center">{message}</p>}
+          {step === 1 && (
+            <>
+              <h2 className="text-2xl font-bold text-[#003049] mb-6">
+                Forgot Password?
+              </h2>
+              <form onSubmit={handleSendResetCode} className="space-y-5">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Enter your email address
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full border border-gray-300 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-[#003049]"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-[#003049] text-white py-3 rounded-lg hover:bg-[#00243a] transition font-semibold"
+                >
+                  {loading ? "Sending..." : "Send Reset Code"}
+                </button>
+              </form>
+            </>
+          )}
 
-        <div className="mb-4">
-          <input
-            type="email"
-            name="email"
-            placeholder="Enter your email"
-            className={`border w-full px-3 py-2 rounded ${
-              fieldErrors.email ? "border-red-500" : ""
-            }`}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <FormError error={fieldErrors.email} />
+          {step === 2 && (
+            <>
+              <h2 className="text-2xl font-bold text-[#003049] mb-6">
+                Enter OTP
+              </h2>
+              <form onSubmit={handleVerifyCode} className="space-y-5">
+                <p className="text-gray-600 text-sm">
+                  We sent a 4-digit code to <strong>{formData.email}</strong>.
+                </p>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Enter Code
+                  </label>
+                  <input
+                    type="text"
+                    name="reset_code"
+                    maxLength={4}
+                    value={formData.reset_code}
+                    onChange={handleChange}
+                    required
+                    className="w-full border border-gray-300 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-[#003049] tracking-widest text-center"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-[#003049] text-white py-3 rounded-lg hover:bg-[#00243a] transition font-semibold"
+                >
+                  {loading ? "Verifying..." : "Verify Code"}
+                </button>
+              </form>
+            </>
+          )}
+
+          {step === 3 && (
+            <>
+              <h2 className="text-2xl font-bold text-[#003049] mb-6">
+                Reset Password
+              </h2>
+              <form onSubmit={handleResetPassword} className="space-y-5">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    New Password
+                  </label>
+                  <input
+                    type="password"
+                    name="new_password"
+                    value={formData.new_password}
+                    onChange={handleChange}
+                    required
+                    className="w-full border border-gray-300 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-[#003049]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Confirm Password
+                  </label>
+                  <input
+                    type="password"
+                    name="confirm_new_password"
+                    value={formData.confirm_new_password}
+                    onChange={handleChange}
+                    required
+                    className="w-full border border-gray-300 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-[#003049]"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-[#003049] text-white py-3 rounded-lg hover:bg-[#00243a] transition font-semibold"
+                >
+                  {loading ? "Resetting..." : "Reset Password"}
+                </button>
+              </form>
+            </>
+          )}
         </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className={`w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition ${
-            loading ? "opacity-70 cursor-not-allowed" : ""
-          }`}
-        >
-          {loading ? "Sending..." : "Send Reset Code"}
-        </button>
-
-        <p className="text-center text-sm mt-4">
-          Remembered your password?{" "}
-          <Link
-            to="/login"
-            className="text-blue-600 hover:text-blue-700 font-medium"
-          >
-            Back to Login
-          </Link>
-        </p>
-      </form>
-    </div>
+        {/* Right Illustration Section */}
+        <div className="hidden md:flex w-1/2 bg-gradient-to-b from-[#FBF5DD] to-[#F8F8F9] items-center justify-center">
+          <img src={phones} alt="Phones illustration" className="w-3/4" />
+        </div>
+      </div>
+    </section>
   );
 }

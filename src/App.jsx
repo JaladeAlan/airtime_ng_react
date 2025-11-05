@@ -10,6 +10,8 @@ import Partners from "./components/Partners";
 import DownloadApp from "./components/DownloadApp";
 import Footer from "./components/Footer";
 import Register from "./pages/Auth/Register";
+import VerifyEmailPhone from "./pages/Auth/VerifyEmailPhone"; 
+
 // import Blog from "./components/Blog";
 
 import Login from "./pages/Auth/Login";
@@ -65,6 +67,7 @@ export default function App() {
           <Route path="/download-app" element={<DownloadApp />} />
           {/* <Route path="/blog" element={<Blog />} /> */}
           <Route path="/register" element={<Register />} />
+          <Route path="/verify" element={<VerifyEmailPhone />} /> 
           <Route path="/login" element={<Login />} />
         </Routes>
       </main>
