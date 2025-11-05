@@ -10,6 +10,11 @@ export default function handleApiError(err, setError) {
   const data = err.response.data;
   console.log("📦 Response data:", data);
 
+  if (typeof data === "string") {
+    setError(data);
+    return;
+  }
+
   if (data?.errors) {
     const allErrors = Object.values(data.errors).flat();
     const formatted = allErrors.join("\n");
