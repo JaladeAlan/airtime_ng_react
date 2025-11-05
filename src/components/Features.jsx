@@ -40,7 +40,7 @@ export default function Features() {
   ];
 
   return (
-    <section className="relative bg-gradient-to-b from-white to-[#F8FAFC] py-20 md:py-28 overflow-hidden">
+    <section className="relative bg-gradient-to-b from-white to-[#F8FAFC] py-20 overflow-hidden">
       {/* Section Header */}
       <div className="max-w-6xl mx-auto px-6 text-center mb-14">
         <motion.h2
@@ -50,8 +50,8 @@ export default function Features() {
           viewport={{ once: true }}
           className="text-gray-800 text-3xl md:text-4xl font-bold mb-3"
         >
-          Innovative Features Designed<br className="hidden md:block" /> for Your
-          Airtime Needs
+          Innovative Features Designed
+          <br className="hidden md:block" /> for Your Airtime Needs
         </motion.h2>
         <div className="mx-auto w-24 h-[3px] bg-[#f59e0b] rounded-full" />
       </div>
@@ -71,7 +71,7 @@ export default function Features() {
             <div>
               <img src={feature.icon} alt="" className="w-7 h-7 mb-4" />
               <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
-              <p className="text-sm leading-relaxed opacity-90">{feature.desc}</p>
+              <p className="text-base leading-relaxed opacity-90">{feature.desc}</p>
             </div>
 
             {/* Bottom 3D Image */}
@@ -79,7 +79,7 @@ export default function Features() {
               <img
                 src={feature.img}
                 alt={feature.title}
-                className="w-28 h-28 md:w-32 md:h-32 object-contain"
+                className="w-30 h-38 md:w-72 md:h-72 object-contain"
               />
             </div>
           </motion.div>
@@ -92,19 +92,21 @@ export default function Features() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
           viewport={{ once: true }}
-          className={`${features[2].bg} ${features[2].text || "text-gray-800"} md:col-span-2 p-8 rounded-2xl shadow-md hover:shadow-xl transition-all hover:-translate-y-2 duration-300 flex flex-col md:flex-row justify-between items-center`}
+          className={`${features[2].bg} ${features[2].text || "text-gray-800"} md:col-span-2 p-8 rounded-2xl shadow-md hover:shadow-xl transition-all hover:-translate-y-2 duration-300 flex flex-col md:flex-row justify-between items-start`}
         >
+          {/* Text Section (Top-aligned) */}
           <div className="max-w-lg">
-            <img src={features[2].icon} alt="" className="w-7 h-7 mb-4" />
-            <h3 className="text-xl font-semibold mb-3 text-white">{features[2].title}</h3>
-            <p className="text-sm leading-relaxed opacity-90">{features[2].desc}</p>
+            <img src={features[2].icon} alt="" className="w-8 h-8 mb-4" />
+            <h3 className="text-2xl font-semibold mb-3 text-white">{features[2].title}</h3>
+            <p className="text-base leading-relaxed opacity-90">{features[2].desc}</p>
           </div>
 
-          <div className="mt-6 md:mt-0">
+          {/* Image Section */}
+          <div className="mt-6 md:mt-0 flex justify-center md:justify-end w-full md:w-auto">
             <img
               src={features[2].img}
               alt={features[2].title}
-              className="w-28 h-28 md:w-40 md:h-40 object-contain"
+              className="w-60 h-60 md:w-96 md:h-96 object-contain"
             />
           </div>
         </motion.div>

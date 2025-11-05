@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="bg-black text-gray-400 py-12">
+    <footer className="bg-black text-gray-400 py-12 ">
       <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-4 gap-10">
         <div>
           <h3 className="text-white font-bold text-lg mb-3">airtime.ng</h3>

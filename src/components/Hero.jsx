@@ -3,8 +3,8 @@ import heroPhones from "../assets/phone.png";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[90vh] flex items-center bg-gradient-to-b from-white to-[#F8FAFC] overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 flex flex-col-reverse md:flex-row items-center justify-between gap-16 w-full">
+    <section className="relative min-h-[85vh] flex items-center bg-gradient-to-b from-white to-[#F8FAFC] overflow-hidden py-10 md:py-16">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col-reverse md:flex-row items-center justify-between gap-12 md:gap-16 w-full">
         {/* LEFT TEXT SECTION */}
         <motion.div
           initial={{ opacity: 0, x: -40 }}
@@ -13,12 +13,12 @@ export default function Hero() {
           viewport={{ once: true }}
           className="flex-1 text-center md:text-left"
         >
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-gray-900 mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-gray-900 mb-4 md:mb-6">
             Your all in one <br className="hidden md:block" />
             <span className="text-[#f59e0b]">Airtime Solution</span>
           </h1>
 
-          <p className="text-gray-600 mb-10 max-w-md mx-auto md:mx-0 text-base md:text-lg leading-relaxed">
+          <p className="text-gray-600 mb-8 md:mb-10 max-w-md mx-auto md:mx-0 text-base md:text-lg leading-relaxed">
             Convert unused airtime to cash, buy bulk airtime for less, and
             automate airtime rewards — all in one simple, fast, and reliable platform.
           </p>
@@ -38,20 +38,17 @@ export default function Hero() {
           viewport={{ once: true }}
           className="flex-1 flex justify-center md:justify-end relative"
         >
-          {/* Background Glow */}
           <div className="absolute w-[500px] h-[500px] bg-gradient-to-tr from-[#E0F2FE] via-[#FDE68A]/40 to-transparent rounded-full blur-3xl opacity-70 -z-10" />
 
-          {/* Hero Image */}
           <img
             src={heroPhones}
             alt="Airtime.ng App Preview"
-            className="w-[420px] md:w-[500px] lg:w-[560px] object-contain drop-shadow-2xl select-none"
+            className="w-[380px] md:w-[480px] lg:w-[540px] object-contain drop-shadow-2xl select-none"
           />
         </motion.div>
       </div>
 
-      {/* Bottom Decorative Fade */}
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#F8FAFC] to-transparent" />
+      <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-[#F8FAFC] to-transparent" />
     </section>
   );
 }

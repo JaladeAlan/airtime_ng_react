@@ -6,7 +6,7 @@ export default function AppPreview() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <section className="relative bg-gradient-to-b from-white to-gray-50 py-24 overflow-hidden">
+ <section className="relative bg-gradient-to-b from-white to-gray-50 py-12 md:py-16 overflow-hidden mb-0">
       <div className="max-w-6xl mx-auto px-6 text-center">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}

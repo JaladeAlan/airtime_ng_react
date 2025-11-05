@@ -10,7 +10,6 @@ import Partners from "./components/Partners";
 import DownloadApp from "./components/DownloadApp";
 import Footer from "./components/Footer";
 import Register from "./components/Register";
-
 // import Blog from "./components/Blog";
 
 export default function App() {
@@ -18,9 +17,9 @@ export default function App() {
     <>
       <Navbar />
 
-      <main>
+      <main className="[&>section]:py-2 md:[&>section]:py-3 [&>section:first-child]:pt-2">
         <Routes>
-          {/* 🏠 Landing Page */}
+          {/* Home Page */}
           <Route
             path="/"
             element={
@@ -28,42 +27,41 @@ export default function App() {
                 <section id="home">
                   <Hero />
                 </section>
+
                 <section id="features">
                   <Features />
                 </section>
+
                 <section id="steps">
                   <Steps />
                 </section>
+
                 <section id="app-preview">
                   <AppPreview />
                 </section>
+
                 <section id="why-choose-us">
                   <WhyChooseUs />
                 </section>
+
                 <section id="partners">
                   <Partners />
                 </section>
+
                 <section id="download-app">
                   <DownloadApp />
                 </section>
+
                 <Footer />
               </>
             }
           />
 
-          {/* Features Page */}
+          {/* Individual Pages */}
           <Route path="/home" element={<Hero />} />
-
-          {/* Features Page */}
           <Route path="/features" element={<Features />} />
-
-          {/* Support Page */}
-          <Route path="/dowload-app" element={<DownloadApp />} />
-
-          {/* Blog Page */}
+          <Route path="/download-app" element={<DownloadApp />} />
           {/* <Route path="/blog" element={<Blog />} /> */}
-
-          {/* Register Page */}
           <Route path="/register" element={<Register />} />
         </Routes>
       </main>

@@ -9,7 +9,7 @@ export default function WhyChooseUs() {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-b from-gray-50 to-white" id="why-us">
+    <section className="py-12 bg-white mb-0" id="why-us">
       <div className="max-w-6xl mx-auto px-6 text-center">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -29,7 +29,7 @@ export default function WhyChooseUs() {
           Enjoy fast, secure, and reliable airtime conversions and purchases.
         </motion.p>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-10">
           {perks.map((perk, i) => (
             <motion.div
               key={i}

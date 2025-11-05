@@ -27,7 +27,7 @@ export default function Steps() {
   ];
 
   return (
-    <section className="relative bg-[#F8FAFC] py-24 md:py-28">
+    <section className="relative bg-white py-24 md:py-12">
       <div className="max-w-6xl mx-auto px-6 text-center mb-16">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}

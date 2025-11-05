@@ -1,26 +1,42 @@
 import { motion } from "framer-motion";
+import appstore from "../assets/appstore.png";
+import googleplay from "../assets/googleplay.png";
 
 export default function DownloadApp() {
   return (
-    <section className="bg-[#1E3A8A] text-white py-20" id="download">
-      <div className="max-w-6xl mx-auto px-6 text-center">
-        <motion.h2
+    <section className="bg-white pt-20 pb-10 md:pb-20" id="download">
+      <div className="max-w-6xl mx-auto px-6">
+        {/* Rounded Inner Card */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-3xl md:text-4xl font-bold mb-4"
+          viewport={{ once: true }}
+          className="bg-[#134E4A] rounded-3xl text-center py-14 px-6 shadow-lg"
         >
-          Download Our Mobile App
-        </motion.h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            Download Our Mobile App
+          </h2>
 
-        <p className="max-w-2xl mx-auto text-gray-200 mb-8">
-          Manage your airtime with ease — whether you’re converting, buying, or automating, our app has you covered.
-        </p>
+          <p className="text-gray-200 max-w-2xl mx-auto mb-8">
+            Experience the easiest way to manage your airtime today. Whether
+            you're converting, buying, or automating, our platform has got you
+            covered.
+          </p>
 
-        <div className="flex justify-center gap-4">
-          <img src="/images/appstore.png" alt="App Store" className="h-12 hover:scale-105 transition-transform" />
-          <img src="/images/googleplay.png" alt="Google Play" className="h-12 hover:scale-105 transition-transform" />
-        </div>
+          <div className="flex justify-center gap-4">
+            <img
+              src={appstore}
+              alt="App Store"
+              className="h-12"
+            />
+            <img
+              src={googleplay}
+              alt="Google Play"
+              className="h-12"
+            />
+          </div>
+        </motion.div>
       </div>
     </section>
   );
