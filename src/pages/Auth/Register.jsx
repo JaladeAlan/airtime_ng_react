@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react"; 
 import { useNavigate } from "react-router-dom";
 import api from "../../utils/api";
 import toast from "react-hot-toast";
@@ -21,9 +21,33 @@ export default function Register() {
     referrer: "",
   });
 
+  const [banks, setBanks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const navigate = useNavigate(); // 👈 for redirect
+  const navigate = useNavigate(); 
+
+  // Fetch banks from API on component mount
+  useEffect(() => {
+    const fetchBanks = async () => {
+      try {
+        const res = await api.get("/users/auth/get_bank.php");
+
+        // set state to the array of banks
+        if (res.data && Array.isArray(res.data.data)) {
+          setBanks(res.data.data); 
+        } else {
+          console.error("Banks data is not an array", res.data);
+          toast.error("Could not load banks. Please try again later.");
+        }
+      } catch (err) {
+        console.error("Failed to fetch banks", err);
+        toast.error("Could not load banks. Please try again later.");
+      }
+    };
+
+    fetchBanks();
+  }, []);
+
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -38,12 +62,9 @@ export default function Register() {
       const res = await api.post("/users/auth/register.php", formData);
       toast.success(res.data.message || "Registration successful!");
 
-      //  Redirect to Verify page with email + phone
+      // Redirect to Verify page with email + phone
       navigate("/verify", {
-        state: {
-          email: formData.email,
-          phone: formData.phone,
-        },
+        state: { email: formData.email, phone: formData.phone },
       });
     } catch (err) {
       handleApiError(err, "Registration failed", setError);
@@ -83,7 +104,6 @@ export default function Register() {
                   className="w-full border border-gray-300 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-[#003049]"
                 />
               </div>
-
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Last Name
@@ -174,24 +194,26 @@ export default function Register() {
               </div>
             </div>
 
-            {/* Bank Name */}
+            {/* Bank Name (fetched from API) */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Bank Name
               </label>
-              <select
-                name="bankname"
-                value={formData.bankname}
-                onChange={handleChange}
-                required
-                className="w-full border border-gray-300 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-[#003049]"
-              >
-                <option value="">Choose Bank</option>
-                <option value="Access Bank">Access Bank</option>
-                <option value="GTBank">GTBank</option>
-                <option value="UBA">UBA</option>
-                <option value="Zenith Bank">Zenith Bank</option>
-              </select>
+             <select
+              name="bankname"
+              value={formData.bankname}
+              onChange={handleChange}
+              required
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-[#003049]"
+            >
+              <option value="">Choose Bank</option>
+              {Array.isArray(banks) &&
+                banks.map((bank, index) => (
+                <option key={`${bank.code}-${index}`} value={bank.name}>
+                  {bank.name}
+                </option>
+                ))}
+            </select>
             </div>
 
             {/* Account Number */}
