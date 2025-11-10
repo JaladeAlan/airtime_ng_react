@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import heroPhones from "../assets/phone.png";
 
 export default function Hero() {
@@ -24,9 +25,12 @@ export default function Hero() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
-            <button className="bg-[#16404D] text-white px-8 py-3 rounded-lg font-medium hover:bg-[#172a6d] transition-all shadow-md hover:shadow-lg">
+            <Link
+              to="/register"
+              className="bg-[#16404D] text-white px-8 py-3 rounded-lg font-medium hover:bg-[#172a6d] transition-all shadow-md hover:shadow-lg"
+            >
               Get Started
-            </button>
+            </Link>
           </div>
         </motion.div>
 

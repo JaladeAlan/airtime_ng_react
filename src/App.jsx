@@ -10,13 +10,12 @@ import Partners from "./components/Partners";
 import DownloadApp from "./components/DownloadApp";
 import Footer from "./components/Footer";
 import Register from "./pages/Auth/Register";
-import VerifyEmailPhone from "./pages/Auth/VerifyEmailPhone"; 
+import VerifyEmailPhone from "./pages/Auth/VerifyEmailPhone";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
-
-// import Blog from "./components/Blog";
-
 import Login from "./pages/Auth/Login";
-import { i } from "framer-motion/client";
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App() {
   return (
@@ -67,14 +66,27 @@ export default function App() {
           <Route path="/home" element={<Hero />} />
           <Route path="/features" element={<Features />} />
           <Route path="/download-app" element={<DownloadApp />} />
-          {/* <Route path="/blog" element={<Blog />} /> */}
           <Route path="/register" element={<Register />} />
-          <Route path="/verify" element={<VerifyEmailPhone />} /> 
+          <Route path="/verify" element={<VerifyEmailPhone />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/login" element={<Login />} />
-          <Route path="*" element={<h1 className="text-center mt-10">404 - Page Not Found</h1>} />
+          <Route
+            path="*"
+            element={<h1 className="text-center mt-10">404 - Page Not Found</h1>}
+          />
         </Routes>
       </main>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="light"
+      />
     </>
   );
 }

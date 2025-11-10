@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../../utils/api";
 import toast from "react-hot-toast";
 import handleApiError from "../../utils/handleApiError";
@@ -22,6 +23,7 @@ export default function Register() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const navigate = useNavigate(); // 👈 for redirect
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -36,18 +38,12 @@ export default function Register() {
       const res = await api.post("/users/auth/register.php", formData);
       toast.success(res.data.message || "Registration successful!");
 
-      // Reset form
-      setFormData({
-        firstname: "",
-        lastname: "",
-        username: "",
-        email: "",
-        password: "",
-        confirm_password: "",
-        phone: "",
-        bankname: "",
-        accountno: "",
-        referrer: "",
+      //  Redirect to Verify page with email + phone
+      navigate("/verify", {
+        state: {
+          email: formData.email,
+          phone: formData.phone,
+        },
       });
     } catch (err) {
       handleApiError(err, "Registration failed", setError);
