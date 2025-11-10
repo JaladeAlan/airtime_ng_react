@@ -1,193 +1,217 @@
-import { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
-import api from "../utils/api";
+import { useState } from "react";
 import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  CartesianGrid,
-  ResponsiveContainer,
-} from "recharts";
+  Eye,
+  EyeOff,
+  Wallet,
+  ArrowRight,
+  LogOut,
+  Signal,
+  Smartphone,
+  Wifi,
+  Bell,
+  ChevronRight,
+  Menu,
+  X,
+} from "lucide-react";
+import logo from "../assets/logo.png";
+import user from "../assets/user.png";
 
 export default function Dashboard() {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-  const [stats, setStats] = useState(null);
-  const [transactions, setTransactions] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      setTransactions([]); 
-      const [statsRes, txRes] = await Promise.all([
-        api.get("/user/stats"),
-        api.get("/transactions/user"),
-      ]);
-      setStats(statsRes.data.data);
-      setTransactions(txRes.data.data || []);
-    } catch (err) {
-      console.error("Dashboard fetch error:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-  fetchData();
-}, []);
-
-
-  if (!user || loading) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-gray-50">
-        <p className="text-gray-500 text-lg">Loading dashboard...</p>
-      </div>
-    );
-  }
+  const [showBalance, setShowBalance] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-  
-      {/* Main Content */}
-      <main className="max-w-6xl mx-auto px-6 py-10 space-y-10">
-        <h2 className="text-2xl font-bold text-gray-800">
-          Welcome back, {user.name || "User"} 👋
-        </h2>
-
-        {/* Stats Section */}
-        {stats && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white shadow rounded-lg p-6">
-              <h3 className="text-sm text-gray-500">Total Balance</h3>
-              <p className="text-2xl font-bold mt-2">
-                ₦{Number(stats.balance).toLocaleString()}
-              </p>
-            </div>
-            <div className="bg-white shadow rounded-lg p-6">
-              <h3 className="text-sm text-gray-500">Cumulative Total Invested</h3>
-              <p className="text-2xl font-bold mt-2">
-                ₦{Number(stats.total_invested).toLocaleString()}
-              </p>
-            </div>
-            <div className="bg-white shadow rounded-lg p-6">
-              <h3 className="text-sm text-gray-500">Lands with Units Owned</h3>
-              <p className="text-2xl font-bold mt-2">{stats.lands_owned}</p>
-            </div>
-          </div>
-        )}
-
-        {/* Profile + Marketplace + Activity */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Profile Info */}
-          <div className="bg-white shadow-md rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">
-              Profile Info
-            </h3>
-            <p className="text-gray-600 text-sm">Name: {user.name}</p>
-            <p className="text-gray-600 text-sm">Email: {user.email}</p>
-          </div>
-
-          {/* Marketplace Shortcut */}
-          <div className="bg-white shadow-md rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">Lands</h3>
-            <p className="text-gray-600 text-sm mb-3">
-              Browse available lands and investments.
-            </p>
-            <Link
-              to="/lands"
-              className="inline-block text-sm bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+    <div className="flex h-screen bg-[#F8FAFC] text-gray-900 overflow-hidden">
+      {/* SIDEBAR */}
+      <aside
+        className={`fixed md:static top-0 left-0 z-40 h-full w-64 bg-[#16404D] text-white flex flex-col justify-between py-6 px-4 transform transition-transform duration-300 ease-in-out ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+        }`}
+      >
+        <div>
+          {/* LOGO */}
+          <img
+  src={logo}
+  alt="Airtime.ng"
+  className="w-36 h-auto object-contain"
+  style={{ filter: "brightness(0) invert(1)" }}
+/>
+          <div className="relative mt-6 mb-8">
+            <button
+              className="md:hidden text-white absolute top-6 right-4"
+              onClick={() => setSidebarOpen(false)}
+              aria-label="Close sidebar"
             >
-              Go to Lands →
-            </Link>
+              <X size={24} />
+            </button>
           </div>
 
-          {/* Activity Summary */}
-          <div className="bg-white shadow-md rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">
-              Your Activity
-            </h3>
-            {stats ? (
-              <>
-                <p className="text-gray-600 text-sm mb-1">
-                  Units Owned: {stats.units_owned}
-                </p>
-                <p className="text-gray-600 text-sm mb-1">
-                  Pending Withdrawals: {stats.pending_withdrawals}
-                </p>
-                <p className="text-gray-600 text-sm">
-                  Total Withdrawn: ₦
-                  {Number(stats.total_withdrawn).toLocaleString()}
-                </p>
-              </>
-            ) : (
-              <p className="text-gray-400 text-sm">Loading...</p>
-            )}
+          {/* USER INFO */}
+          <div className="border-b border-gray-600/30 pb-4 mb-6 text-sm">
+            <p className="font-medium">User Level 1 ⭐⭐⭐</p>
+            <button className="text-xs text-[#FBBF24] mt-1">
+              Upgrade Account
+            </button>
           </div>
-        </div>
-       
-        {/* Recent Transactions */}
-        <div className="bg-white shadow p-6 rounded-lg">
-          <h2 className="text-lg font-semibold mb-4">Recent Transactions</h2>
 
-          {transactions.length === 0 ? (
-            <p className="text-gray-500 text-sm">No transactions found.</p>
-          ) : (
-            <table className="w-full text-sm border-collapse">
-              <thead>
-                <tr className="bg-gray-100 text-left text-gray-700">
-                  <th className="p-3 font-medium">Type</th>
-                  <th className="p-3 font-medium">Land</th>
-                  <th className="p-3 font-medium">Amount</th>
-                  <th className="p-3 font-medium">Status</th>
-                  <th className="p-3 font-medium">Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {transactions.slice(0, 5).map((tx, i) => (
-                  <tr
-                    key={i}
-                    className="border-b hover:bg-gray-50 transition-colors"
-                  >
-                    <td className="p-3 text-gray-800 font-medium">{tx.type}</td>
-                    <td className="p-3 text-gray-600">{tx.land || "N/A"}</td>
-                    <td className="p-3 text-gray-800">
-                      ₦{Number(tx.amount).toLocaleString()}
-                    </td>
-                    <td className="p-3">
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs font-semibold
-                          ${
-                            tx.status.toLowerCase() === "success" || 
-                              tx.status.toLowerCase() === "completed"
-                              ? "bg-green-100 text-green-700"
-                              : tx.status.toLowerCase() === "pending"
-                              ? "bg-yellow-100 text-yellow-700"
-                              : "bg-red-100 text-red-700"
-                          }`}
-                      >
-                        {tx.status}
-                      </span>
-                    </td>
-                    <td className="p-3 text-gray-500">
-                      {new Date(tx.date).toLocaleString("en-NG", {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+          {/* NAVIGATION */}
+          <nav className="space-y-2 text-sm">
+            <SidebarItem icon={<Wallet size={16} />} label="Dashboard" active />
+            <SidebarItem icon={<Smartphone size={16} />} label="Airtime To Cash" />
+            <SidebarItem icon={<Signal size={16} />} label="Buy Airtime" />
+            <SidebarItem icon={<Wifi size={16} />} label="Airtime Campaigns" />
+            <SidebarItem icon={<ChevronRight size={16} />} label="My Account" />
+          </nav>
         </div>
 
+        {/* LOGOUT BUTTON */}
+        <button className="flex items-center gap-2 text-sm mt-auto hover:text-[#FBBF24] transition-colors">
+          <LogOut size={16} />
+          Log Out
+        </button>
+      </aside>
+
+      {/* BACKDROP (Mobile) */}
+      {sidebarOpen && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-30 md:hidden"
+        />
+      )}
+
+      {/* MAIN CONTENT */}
+      <main className="flex-1 flex flex-col h-full overflow-y-auto px-6 lg:px-10 py-6">
+        {/* HEADER */}
+        <header className="flex justify-between items-center mb-8">
+          <div className="flex items-center gap-3">
+            <button
+              className="md:hidden p-2 rounded-md bg-gray-100"
+              onClick={() => setSidebarOpen(true)}
+              aria-label="Open sidebar"
+            >
+              <Menu size={20} />
+            </button>
+            <h2 className="text-2xl font-semibold">Dashboard</h2>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <button className="relative p-2 bg-gray-100 rounded-full" aria-label="Notifications">
+              <Bell size={18} />
+            </button>
+            <div className="flex items-center gap-2 bg-gray-50 rounded-full px-3 py-1">
+              <img src={user} alt="User pic" className="h-8 w-8 rounded-full" />
+              <span className="text-sm text-gray-600">Welcome, Tunde</span>
+            </div>
+          </div>
+        </header>
+
+        {/* WALLET CARD */}
+        <section className="bg-white rounded-2xl shadow-sm p-6 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 mb-10">
+          {/* Balance */}
+          <div className="flex-1 min-w-[200px]">
+            <h3 className="text-gray-500 text-sm mb-1">Wallet Balance</h3>
+            <div className="flex items-center gap-3 mb-3">
+              <p className="text-3xl font-bold text-gray-900">
+                ₦{showBalance ? "40,000.00" : "•••••••"}
+              </p>
+              <button
+                onClick={() => setShowBalance((prev) => !prev)}
+                className="text-gray-500 hover:text-gray-700 transition"
+                aria-label={showBalance ? "Hide balance" : "Show balance"}
+              >
+                {showBalance ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
+          </div>
+
+          {/* Total Transactions */}
+          <div className="text-center md:text-left flex-1 min-w-[200px]">
+            <p className="text-gray-500 text-sm">Total Transactions</p>
+            <h4 className="text-2xl font-semibold">0</h4>
+            <button className="text-[#F59E0B] text-sm mt-2 flex items-center gap-1 mx-auto md:mx-0">
+              Fund Wallet <ArrowRight size={14} />
+            </button>
+          </div>
+
+          {/* Daily Limit */}
+          <div className="bg-[#16404D] text-white p-4 rounded-xl flex flex-col items-center text-center min-w-[220px]">
+            <p className="text-sm opacity-80 mb-1">Daily Limit</p>
+            <div className="font-semibold mb-2">₦10,000 / ₦20,000</div>
+            <button className="bg-[#FBBF24] text-black text-xs px-3 py-1 rounded-md">
+              Upgrade Account
+            </button>
+          </div>
+        </section>
+
+        {/* QUICK ACTIONS */}
+        <section className="mb-10">
+          <h3 className="text-lg font-medium mb-4">
+            What would you like to do?
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <QuickAction
+              icon={<Smartphone size={22} />}
+              title="Airtime to Cash"
+              desc="Convert your airtime to cash instantly"
+            />
+            <QuickAction
+              icon={<Signal size={22} />}
+              title="Buy Airtime"
+              desc="Get Bulk airtime at the cheapest rate"
+            />
+            <QuickAction
+              icon={<Wifi size={22} />}
+              title="Airtime Campaigns"
+              desc="Convert your airtime to cash instantly"
+            />
+          </div>
+        </section>
+
+        {/* TRANSACTIONS TABLE (EMPTY) */}
+        <section className="flex-1">
+          <div className="flex justify-between items-center mb-4">
+            <h4 className="text-md font-semibold">Recent Transactions</h4>
+            <select className="text-sm border rounded-lg px-3 py-1">
+              <option>All Transactions</option>
+            </select>
+          </div>
+
+          <div className="text-center py-10 text-gray-500">
+            <div className="text-5xl mb-4">🧾</div>
+            <p>Sorry! You don’t have any Transaction activities yet…</p>
+            <button className="text-[#F59E0B] text-sm mt-3">
+              View Full Transaction History
+            </button>
+          </div>
+        </section>
       </main>
+    </div>
+  );
+}
+
+/* SidebarItem */
+function SidebarItem({ icon, label, active }) {
+  return (
+    <button
+      className={`flex items-center gap-3 w-full px-3 py-2 rounded-lg transition ${
+        active ? "bg-white/10 text-[#FBBF24]" : "hover:bg-white/10"
+      }`}
+    >
+      {icon}
+      <span>{label}</span>
+    </button>
+  );
+}
+
+/* QuickAction */
+function QuickAction({ icon, title, desc }) {
+  return (
+    <div className="bg-[#E0F2FE]/40 hover:bg-[#E0F2FE]/70 transition rounded-xl p-4 shadow-sm cursor-pointer">
+      <div className="flex items-center gap-3 mb-2 text-[#16404D]">
+        {icon}
+        <h4 className="font-medium">{title}</h4>
+      </div>
+      <p className="text-sm text-gray-600">{desc}</p>
     </div>
   );
 }

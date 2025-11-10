@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Features from "./components/Features";
@@ -13,14 +13,20 @@ import Register from "./pages/Auth/Register";
 import VerifyEmailPhone from "./pages/Auth/VerifyEmailPhone";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import Login from "./pages/Auth/Login";
-
+import Dashboard from  "./pages/Dashboard";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function App() {
+  const location = useLocation();
+
+  const hideNavbarRoutes = ["/login", "/register", "/forgot-password", "/verify", "/dashboard"];
+
+  const showNavbar = !hideNavbarRoutes.includes(location.pathname);
+
   return (
     <>
-      <Navbar />
+      {showNavbar && <Navbar />}
 
       <main className="[&>section]:py-2 md:[&>section]:py-3 [&>section:first-child]:pt-2">
         <Routes>
@@ -29,34 +35,13 @@ export default function App() {
             path="/"
             element={
               <>
-                <section id="home">
-                  <Hero />
-                </section>
-
-                <section id="features">
-                  <Features />
-                </section>
-
-                <section id="steps">
-                  <Steps />
-                </section>
-
-                <section id="app-preview">
-                  <AppPreview />
-                </section>
-
-                <section id="why-choose-us">
-                  <WhyChooseUs />
-                </section>
-
-                <section id="partners">
-                  <Partners />
-                </section>
-
-                <section id="download-app">
-                  <DownloadApp />
-                </section>
-
+                <section id="home"><Hero /></section>
+                <section id="features"><Features /></section>
+                <section id="steps"><Steps /></section>
+                <section id="app-preview"><AppPreview /></section>
+                <section id="why-choose-us"><WhyChooseUs /></section>
+                <section id="partners"><Partners /></section>
+                <section id="download-app"><DownloadApp /></section>
                 <Footer />
               </>
             }
@@ -69,6 +54,7 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/verify" element={<VerifyEmailPhone />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
           <Route
             path="*"
