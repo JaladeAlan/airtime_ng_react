@@ -11,10 +11,12 @@ import DownloadApp from "./components/DownloadApp";
 import Footer from "./components/Footer";
 import Register from "./pages/Auth/Register";
 import VerifyEmailPhone from "./pages/Auth/VerifyEmailPhone"; 
+import ForgotPassword from "./pages/Auth/ForgotPassword";
 
 // import Blog from "./components/Blog";
 
 import Login from "./pages/Auth/Login";
+import { i } from "framer-motion/client";
 
 export default function App() {
   return (
@@ -68,7 +70,9 @@ export default function App() {
           {/* <Route path="/blog" element={<Blog />} /> */}
           <Route path="/register" element={<Register />} />
           <Route path="/verify" element={<VerifyEmailPhone />} /> 
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/login" element={<Login />} />
+          <Route path="*" element={<h1 className="text-center mt-10">404 - Page Not Found</h1>} />
         </Routes>
       </main>
     </>
