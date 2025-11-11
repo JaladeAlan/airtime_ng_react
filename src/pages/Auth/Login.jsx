@@ -28,12 +28,14 @@ export default function Login() {
     try {
       const res = await api.post("/users/auth/login.php", form);
 
-      if (res.data.status === "success") {
+      if (res.data.status) { 
+        const token = res.data.data.token; 
+        localStorage.setItem("token", token);
+
         toast.success("Login successful!");
-        localStorage.setItem("token", res.data.token);
-        navigate("/dashboard");
+        navigate("/dashboard");   
       } else {
-        toast.error(res.data.message || "Invalid email or password.");
+        toast.error(res.data.text || "Invalid email or password.");
       }
     } catch (err) {
       handleApiError(err, (msg) => {
@@ -44,6 +46,7 @@ export default function Login() {
       setLoading(false);
     }
   };
+
 
   return (
     <section className="min-h-screen w-full grid md:grid-cols-[55%_45%] bg-white">
