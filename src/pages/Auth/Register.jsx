@@ -58,10 +58,15 @@ export default function Register() {
     setLoading(true);
     setError("");
 
-    try {
-      const res = await api.post("/users/auth/register.php", formData);
-      toast.success(res.data.message || "Registration successful!");
+    const payload = {
+      ...formData,
+      referrer: formData.referrer.trim() === "" ? null : formData.referrer.trim()
+    };
 
+    try {
+      const res = await api.post("/users/auth/register.php", payload);
+      toast.success(res.data.message || "Registration successful!");
+    
       // Redirect to Verify page with email + phone
       navigate("/verify", {
         state: { email: formData.email, phone: formData.phone },
@@ -73,6 +78,7 @@ export default function Register() {
       setLoading(false);
     }
   };
+
 
   return (
     <section className="min-h-screen bg-gradient-to-r from-[#FBF5DD] to-[#F8F8F9] flex items-center justify-center px-4">

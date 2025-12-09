@@ -86,7 +86,7 @@ export default function ForgotPassword() {
         confirm_new_password: "",
       });
       // Redirect to login
-      setTimeout(() => navigate("/login"), 3000); // wait 3s so user sees toast
+      setTimeout(() => navigate("/login"), 3000); 
     } catch (err) {
       handleApiError(err, setError);
       toast.error(err?.response?.data?.message || "Failed to reset password");
@@ -141,7 +141,7 @@ export default function ForgotPassword() {
                 {error && <p className="text-red-500 mb-4">{error}</p>}
                 <form onSubmit={handleVerifyCode} className="space-y-5">
                   <p className="text-gray-600 text-sm">
-                    We sent a 4-digit code to <strong>{formData.email}</strong>.
+                    We sent a 6-digit code to <strong>{formData.email}</strong>.
                   </p>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -150,12 +150,20 @@ export default function ForgotPassword() {
                     <input
                       type="text"
                       name="reset_code"
-                      maxLength={4}
+                      maxLength={6}
                       value={formData.reset_code}
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        const value = e.target.value.replace(/\D/g, "");
+                        setFormData({ ...formData, reset_code: value });
+                        setError("");
+                      }}
                       required
-                      className="w-full border border-gray-300 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-[#003049] tracking-widest text-center"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      className="w-full border border-gray-300 rounded-lg px-4 py-2 outline-none 
+                                focus:ring-2 focus:ring-[#003049] tracking-widest text-center"
                     />
+
                   </div>
                   <button
                     type="submit"
