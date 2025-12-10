@@ -13,6 +13,7 @@ import Register from "./pages/Auth/Register";
 import VerifyEmailPhone from "./pages/Auth/VerifyEmailPhone";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import Login from "./pages/Auth/Login";
+import AddBankAccount from "./pages/Wallet/AddBankAccount";
 import Dashboard from  "./pages/Dashboard";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,7 +21,7 @@ import "react-toastify/dist/ReactToastify.css";
 export default function App() {
   const location = useLocation();
 
-  const hideNavbarRoutes = ["/login", "/register", "/forgot-password", "/verify", "/dashboard"];
+  const hideNavbarRoutes = ["/login", "/register", "/forgot-password", "/verify", "/dashboard", "/bank"];
 
   const showNavbar = !hideNavbarRoutes.includes(location.pathname);
 
@@ -56,6 +57,7 @@ export default function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/bank" element={<AddBankAccount />} />
           <Route
             path="*"
             element={<h1 className="text-center mt-10">404 - Page Not Found</h1>}
